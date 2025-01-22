@@ -1,0 +1,125 @@
+Section 3: Giới thiệu về DevOps và CICD
+
+Notes
+    - Nội dung:
+        - Định nghĩa DevOps là gì ? CICD là gì ?
+            - Định nghĩa DevOps:
+                - DevOps là phương pháp phát triển phần mềm và quản lý hệ thống. Thúc đẩy hợp tác giữa nhóm Dev (Development) và Ops (Operations).
+                - Mục tiêu: Chất lượng cao, Đáng tin cậy, Nhanh chóng, Đáp ứng nhu cầu thay đổi.
+                - Ứng dụng: Giảm thời gian, rủi ro trong triển kahi phần mềm. Tăng cường sự linh hoạt, phản hồi nhanh chóng. Môi trường làm việc tích hợp giữa các nhóm.
+
+                - Hiểu đúng:
+                    - DevOps là một văn hóa, triết lý trong phát triển và triển khai phần mềm
+                    - DevOps là một cách tiếp cận và tổ chức quy trình làm việc.
+
+                - Hiểu sai:
+                    - DevOps không phải tên gọi của một công nghệ.
+                    - DevOps không phải là tập hợp các Tools.
+                    - DevOps không phải là tên của một chức danh.
+
+        - Các nguyên tắc của DevOps và CICD.
+            1. Tự động hóa:
+                - Quy trình phát triển
+                - Kiểm thử
+                - Triển khai ứng dụng
+                - Quản lý hệ thống
+
+                => Mục tiêu là giảm thiểu can thiệp thủ công, lỗi nhân tạo (human mistakes). Tăng tốc độ.
+
+            2. Tích hợp liên tục (Continuous Integration)
+                - Tích hợp liên tục mã nguồn
+                - Thực hiện test tự động để đảm bảo tính ổn định của ứng dụng
+
+            3. Triển khai liên tục (Continuous Deployment)
+                - Triển khai phiên bản mới một cách tự động, an toàn
+
+            4. Theo dõi và phản hồi (Monitoring and Feedback)
+                - Theo dõi ứng dụng
+                - Phát hiện và khắc phục lỗi nhanh chóng
+
+            5. Tự phục vụ (Self-service)
+                - Cung cấp các công cụ cho team Dev và team Ops để họ có thể làm việc một cách độc lập, hiệu quả.
+
+                - VD: Cung cấp các công cụ cho phép thành viên dự án có thể thực hiện Build, Automation test, Deploy mà không phụ thuộc người khác, team khác. Trước đây khi muốn Deploy thủ công thì Dev có thể là người thực hiện nhưng sẽ cần sự phối hợp của SysAdmin, Operators để lấy một số thông tin hệ thống,... nhưng nếu có Pipeline thì Dev có thể chỉ cần trigger pipeline là có thể thực hiện deploy.
+
+        - Vai trò của DevOps và DevOps engineer trong dự án.
+            1. Tự động hóa quy trình
+                - Thiết lập, duy trì quy trình và công cụ tự động hóa.
+                - Bao gồm:
+                    - Infrastructure as Code
+                    - Automation test
+                    - CICD pipelines
+
+            2. Quản lý hệ thống và môi trường
+                - Giám sát, quản lý, tối ưu hóa hệ thống, môi trường làm việc.
+                - Bao gồm:
+                    - Cấu hình, triển khai Server, Databases
+                    - Đảm bảo tính sẵn sàng, bảo mật của hệ thống.
+
+                - Một số công việc giám sát, quản lý,... trước đây được giao cho SysAdmin. Tuy nhiên với sự phát triển của Cloud, các công việc này hiện tại đã có thể thực hiện nhanh chóng thông qua Code, không cần phải thực hiện thủ công nữa nên chúng được giao cho DevOps.
+
+            3. Continuous Integration
+            4. Continuous Deployment
+            5. Bảo mật và giám sát
+            6. Hỗ trợ và sửa lỗi
+            7. Hợp tác và giao tiếp
+
+        - DevOps thay đổi cách chúng ta làm việc như thế nào ?
+        - Bạn có cần biêt thật nhiều tools, công nghệ để trở thành DevOps Engineer ?
+            - Các key words:
+                - "DevOps roadmap"
+                - "DevOps tools"
+                - "CICD"
+                - "CICD concept"
+
+            - Với mỗi step trong quy trình CICD, ta chỉ cần học một vài các tools thông dụng.
+
+            - Việc lựa chọn công cụ thay đổi dựa trên nhiều yếu tố như kinh nghiệm đội dự án, member size, kinh phí, thời gian thực hiện dự án,...
+
+            - CICD là may đo, không có CICD nào phục vụ cho tất cả các solutions.
+
+        - Cần trang bị gì để trở thành một DevOps Engineer ?
+
+
+Tổng hợp
+
+	DevOps
+		- Định nghĩa:
+			- Văn hóa, triết lý, hướng tiếp cận trong công việc phát triển, triển khai, duy trì hoạt động phần mềm.
+
+		- Đặc điểm:
+			- Phối hợp team Dev (Development) + team Ops (Operation)
+
+		- Ứng dụng:
+			- Giảm thời gian, rủi ro trong công việc phát triển, duy trì hoạt động.
+			- Tăng cường tính linh hoạt.
+			- Khả năng phản hồi nhanh chóng.
+			- Môi trường làm việc phối hợp tốt giữa các nhóm.
+
+		- Mục tiêu công việc:
+			1. Tự động hóa
+
+				- Tự động hóa trong các công việc: Development, testing, deployment, management
+
+				=> Tăng tốc. Giảm human mistakes.
+
+			2. Continuous Integration
+			3. Continuous Deployment
+			4. Monitoring and Feedback
+			5. Self-service
+				- Cung cấp các công cụ tự phục vụ.
+
+	DevOps Engineer
+
+		- Vai trò trong dự án:
+			1. Tự động hóa quy trình, công cụ, môi trường phát Triển
+			2. Giám sát, quản lý, bảo mật
+			3. Continuous Integration
+			4. Continuous Deployment
+			5. Hỗ trợ, sửa lỗi
+			6. Hợp tác, giao tiếp
+
+    Công cụ của DevOps, cách làm việc của DevOps
+        
+        - Công cụ được sử dụng bởi DevOps, dự án rất đa dạng, thay đổi dựa trên nhiều yếu tố như kinh nghiệm, kinh phí, thời gian dự án,...
+        - Việc lựa chọn công cụ được sử dụng, cách xây dựng CICD là rất đa dạng, thay đổi tùy thuộc theo nhu cầu dự án, khách hàng.
