@@ -1,0 +1,153 @@
+Section 5: Infrastructure as Code (IaC) sử dụng Terraform
+
+Notes
+
+    - Mục tiêu:
+        - Hiểu được khái niệm Infras as Code (IaC) là gì ?
+        - Tại sao cần sử dụng IaC
+        - Các công cụ IaC thường được sử dụng
+        - Giới thiệu về Terraform
+        - Các thành phần và cơ chế hoạt động của Terraform
+        - Cài đặt các công cụ cần thiết để làm việc với Terraform
+        - Quản lý resource và version như thế nào ?
+        - Làm quen với Terraform thông qua các bài lab từ dễ đến khó.
+
+    - Infastructure as Code (IaC) là gì ?
+
+        - Định nghĩa: Phương pháp quản lý và cấu hình IT Infrastructure thông qua code như script, template.
+
+        - Phương pháp quản lý, cấu hình truyền thống:
+            - Chậm chạp
+            - Phức tạp
+            - Không nhất quán, dễ xảy ra human mistakes
+            - Không thể tái sử dụng
+
+        - Ưu điểm:
+            - Tự động hóa
+            - Nhất quán, dễ dàng kiểm soát
+            - Tích hợp và Phối hợp tốt:
+                - Phù hợp với các nguyên tắc, mục tiêu của DevOps
+                - Phù hợp với các công cụ khác như CICD, monitor, logs
+            - Tối ưu hóa tài nguyên, chi phí:
+                - Thông qua việc tái sử dụng
+            - An toàn, bảo mật
+
+    - Các bước triển khai Infrastructure as Code:
+        - 1: DevOps Engineer viết code
+        - 2: Triển khai thử trên môi trường Development
+        - 3: Push version code ổn định lên Git
+        - 4: Thực hiện triển khai lên các môi trường test, production.
+        - 5: Update/Maintenance infrastructure
+
+    - Các công cụ IaC thường dùng:
+        - AWS:
+            - CloudFormation
+            - Cloud Development Kit
+        - Multi Cloud provider:
+            - Terraform
+        - Azure:
+            - Azure Resource Manager (ARM) Template
+        - Google Cloud:
+            - Google Cloud Deployment Manager
+        - Others:
+            - Ansible
+            - Puppet
+            - CHEF
+
+    - Giới thiệu về Terraform:
+        - Provider: Hashicorp
+        - Ngôn ngữ: HashiCorp Configuration Language HCL
+        - Support multiple cloud providers
+        - Các thành phần:
+            - Terraform CLI: Connect tới các Cloud thông qua các access keys
+            - Template: Đây là các file codes mà ta tạo ra.
+            - Terraform modules: Đây là các modules được dựng sẵn
+            - Terraform provider: Các thư viện được dùng tương ứng với các cloud provider
+            - States: Lưu trữ trạng thái hiện tại của infrastructure
+            - Output: Là kết quả thu được, có thể cung cấp thông tin cho người chạy hoặc làm chất keo kết dính giữa các modules.
+            - Variables: Cung cấp các Params
+            - Resources: Là các thành phần của Infrastructure.
+
+    - Các bài thực hành:
+        - Có thể thực hành một số bài lab của terraform ở Github "https://github.com/cloudacademy/terraform-aws/tree/main"
+
+    - Lưu State của terraform trên S3:
+        - Việc lưu state trên Github có thể xảy ra vấn đề inconsistency khi có nhiều DevOps tham gia dự án.
+        - State của Terraform có thể được lưu trên S3. State này có thể được đồng bộ liên tục với state của infrastructure mỗi khi terraform có thay đổi mới.
+
+Tổng hợp
+
+    - Định nghĩa Infrastructure as Code (IaC):
+        - Quản lý và cấu hình IT Infrastructure (không bao gồm business apps) thông qua Code (script, template)
+    
+    - Quản lý, cấu hình thủ công:
+        - Chậm chạp
+        - Phức tạp
+        - Không nhất quán, dễ có human mistakes
+        - Không thể tái sử dụng.
+
+    - Ưu điểm của IaC:
+        - Tự động hóa
+        - Nhất quán
+        - Dễ kiểm soát, thay đổi
+        - Phù hợp với mục tiêu và các công cụ khác như CICD, monitor, log,...
+        - Tối ưu hóa tài nguyên, chi phí: Dễ tái sử dụng
+        - An toàn, bảo mật
+
+    - Các bước triển khai IaC:
+        - 1: Code ra template
+        - 2: Test template
+        - 3: Upload lên Git
+        - 4: Apply template
+        - 5: Maintain template
+
+Labs
+
+    - Cài đặt môi trường cho Terraform
+        1. Cài đặt AWS CLI
+        2. Cài terraform
+        3. Cài terraform pluggin cho VSC.
+
+    - Tài liệu tra cứu:
+        - Google "terraform template reference aws", "registry.terraform.io"
+
+    - Các bước triển khai Terraform, vòng đời của Terraform:
+        - Init: Terraform download các libs cần thiết
+        - Plan: Terraform xác định các resources, cấu hình sẽ thực hiện
+        - Apply: Terraform thực hiện apply các thay đổi 
+        - Destroy: Terraform hủy bỏ toàn bộ infrastructure 
+
+    - Generate SSH keys:
+
+        1. Mở một bash window
+        2. "ssh-keygen -t rsa -b 4096 -C "lannguyentrong99@gmail.com""
+        3. Điền vị trí lưu file
+        4. Xác nhận ghi đè hay không
+        5. Điền passphrase
+        6. 2 files PublicKey và PrivateKey được sinh ra.
+
+    - Cấu trúc Terraform project:
+        - File "main.tf":
+            - Khai báo "provider"
+            - Khai báo các "resource"
+            - Khai báo variables
+            - Khai báo các outputs
+            - Khai báo, reference tới các modules, build-in modules
+
+        - File "variable.tf"
+            - Khai báo các variables, nếu như không muốn khai báo variables trong file "main.tf"
+
+        - File "output.tf"
+            - Khai báo các outputs, nếu như không muốn khai báo outputs trong file "main.tf"
+        
+        - File "terraform.tfvars"
+            - Cung cấp value cho các variables
+
+        - File "terraform.tfstate": File này dùng để lưu trạng thái hiện tại của terraform stack.
+
+    - Commands:
+
+        "terraform init"
+        "terraform plan --var-file "terraform.tfvars""
+        "terraform apply --var-file "terraform.tfvars""
+        "terraform destroy --var-file "terraform.tfvars""

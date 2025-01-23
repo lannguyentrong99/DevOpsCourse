@@ -1,0 +1,15 @@
+Đọc file docker-compose
+
+    - Backend:
+        - Java:
+            - "SPRING_PROFILES_ACTIVE" của service "api" là gì ?
+            - Đọc về cách thức build Java, Maven là gì ? Cách build Java với Maven
+                - Tác dụng của các files "mvnw", "mvnw.cmd", "pom.xml"
+        - Docker:
+            - Tìm hiểu về "networks" trong Docker.
+            - Đọc lại về multi-stages Docker build
+            - Đọc lại về ENTRYPOINT
+
+    - FrontEnd:
+        - Docker:
+            - Đọc hiểu từng bước trong file Dockerfile của FrontEnd

@@ -6,7 +6,7 @@ Notes
             - Định nghĩa DevOps:
                 - DevOps là phương pháp phát triển phần mềm và quản lý hệ thống. Thúc đẩy hợp tác giữa nhóm Dev (Development) và Ops (Operations).
                 - Mục tiêu: Chất lượng cao, Đáng tin cậy, Nhanh chóng, Đáp ứng nhu cầu thay đổi.
-                - Ứng dụng: Giảm thời gian, rủi ro trong triển kahi phần mềm. Tăng cường sự linh hoạt, phản hồi nhanh chóng. Môi trường làm việc tích hợp giữa các nhóm.
+                - Ứng dụng: Giảm thời gian, rủi ro trong triển khai phần mềm. Tăng cường sự linh hoạt, phản hồi nhanh chóng. Môi trường làm việc tích hợp giữa các nhóm.
 
                 - Hiểu đúng:
                     - DevOps là một văn hóa, triết lý trong phát triển và triển khai phần mềm
@@ -80,14 +80,14 @@ Notes
 
         - Cần trang bị gì để trở thành một DevOps Engineer ?
 
+            - Search "Devops roadmap", "Devops tools", "CICD", "CICD concept"
+
 
 Tổng hợp
 
 	DevOps
 		- Định nghĩa:
 			- Văn hóa, triết lý, hướng tiếp cận trong công việc phát triển, triển khai, duy trì hoạt động phần mềm.
-
-		- Đặc điểm:
 			- Phối hợp team Dev (Development) + team Ops (Operation)
 
 		- Ứng dụng:
@@ -123,3 +123,7 @@ Tổng hợp
         
         - Công cụ được sử dụng bởi DevOps, dự án rất đa dạng, thay đổi dựa trên nhiều yếu tố như kinh nghiệm, kinh phí, thời gian dự án,...
         - Việc lựa chọn công cụ được sử dụng, cách xây dựng CICD là rất đa dạng, thay đổi tùy thuộc theo nhu cầu dự án, khách hàng.
+
+    Trang bị kiến thức
+
+            - Search "Devops roadmap", "Devops tools", "CICD", "CICD concept"

@@ -1,0 +1,12 @@
+Các kiến thức đã học trong khóa học DevOps
+
+    - Terraform: IaC
+    - Linux, Ubuntu: OS
+    - Git:
+    - Docker, DockerCompose: Container technology
+    - Jenkins: Pipeline
+    - Deployment strategies:
+    - CodeBuild, CodeDeploy, CodePipeline: Pipeline
+    - Serverless Application Model: AWS Serverless architecture
+    - Kubernetes: Container technology
+    - ECR, ECS, EKS: Cloud container technology
