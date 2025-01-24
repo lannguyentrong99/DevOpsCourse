@@ -1,0 +1,240 @@
+Section 8: Thao tác cơ bản với Docker và DockerCompose
+
+Notes
+
+	- Container là gì ? Tại sao cần Container ?
+
+
+		- Một số terms quan trọng:
+
+			Kernel
+
+				- Core của OS
+				- Cho phép kết nối phần mềm với phần cứng
+
+
+			Một số mô hình kiến trúc máy tính
+
+				Hardware appliance: Thiết bị phần cứng
+					- Sinh ra để phục vụ một mục đích cụ thể
+					- Các phần cứng có thể phục vụ nhiều mục đích gọi là General Purpose Computers. Hardware Appliance thì sinh ra chỉ để phục vụ một mục đích cụ thể.
+
+				Bare Metal:
+					- Để chỉ tới các Computer không sử dụng ảo hóa
+					- Tối ưu performance do không có overhead của "Hypervisor"
+					- Phù hợp cho các ứng dụng performance critical
+
+				Virtualized
+					- Phân tách một computer ở cấp độ phần cứng.
+
+						Phần cứng => Hypervisor => VirtualMachines
+
+					- Hypervisor cho phép chia nhỏ phần cứng thành các phần nhỏ hơn. Và trên mỗi phần cứng thành phần này, ta lại có thể dùng để chạy một máy ảo. Mỗi máy ảo có hệ điều hành riêng biệt.
+
+				Containerized
+					- Phân tách một computer ở cấp độ Libraries Dependencies, các Containers VẪN CHIA SẺ HỆ ĐIỀU HÀNH.
+
+						Phần cứng => OS => Container Engine => Containers
+
+					- Chúng ta vẫn có một số images trên DockerHub như Ubuntu image. 
+						- Ubuntu OS thông thường được cài trên một Bare Metal device hoặc Virtualization Machine sẽ có kernel và các hardware driver để giao tiếp với phần cứng.
+						- Ubuntu Image thì chỉ có essential libraries and tools of Ubuntu. Không có kernel, không có các hardware driver vì nó không cần tương tác trực tiếp với hardwares. Việc giao tiếp với hardwares vẫn thông qua host OS.
+
+					- Containers cho phép isolate môi trường của các Containers, khiến các applications chạy bên trong containers cảm thấy như nó đang chạy trên một máy tính độc lập.
+
+				=> Containerized phù hợp để chạy nhiều applications cần isolate với nhau nhưng vẫn sử dụng chung một hệ điều hành.
+				=> Virtualized thì phù hợp để chạy nhiều applications cần isolate với nhau nhưng tương thích với hệ điều hành khách nhau.
+
+
+		- Công dụng của Containerization:
+
+			1. Tiết kiệm tài nguyên
+			2. Độc lập về môi trường
+			3. Đơn giản hóa quy trình
+				- Tăng tốc, đảm bảo tính nhất quán
+
+	- Giới thiệu về Docker:
+
+		- Các terminonologies quan trọng:
+
+			- Docker's Container Engine:
+				- Term này để cập đến "entire suite of tools and components that work together to create, manage, and run containers".
+
+			- Docker Deamon:
+				- Còn gọi là Dockerd
+				- Core của Docker
+				- Vai trò là quản lý images, containers, network, storages,...
+
+			- Docker Client:
+				- CLI
+				- Cho phép user tương tác với Docker.
+
+			- Docker Images:
+				- Template chứa tất cả mọi thứ để run một Container
+
+			- Docker Registry:
+				- Nơi lưu trữ các DockerImages.
+
+			- Docker Containers:
+
+			- Docker Compose:
+				- Công cụ build và chạy TỔ HỢP containers.
+
+	- Docker file:
+
+		- Base image:
+
+			FROM httpd
+
+		- COPY / ADD:
+
+			- Copy folder từ host vào container
+
+
+			- ADD: Hỗ trợ giải nén, copy từ URL trên internet
+			- COPY: Không hỗ trợ giải nén, copy từ internet 
+
+		- RUN:
+
+			- Thực thi lệnh để build bên trong container.
+
+		- ENV:
+
+			- Tạo biến môi trường
+
+		- EXPOSE:
+
+			- Mở port
+
+		- CMD / ENTRYPOINT:
+
+			- Command sẽ chạy sau khi container đã start
+
+			- ENTRYPOINT: Chỉ định chương trình được khởi động khi container đã start. Default là "/bin/sh -c".
+			- CMD: Cung cấp params cho ENTRYPOINT 
+
+	- Multi stages Docker file:
+		- Ứng dụng:
+			1. Giảm kích thước của final image
+
+				- Việc build image cần rất nhiều thư viện, công cụ. Multi stages docker build sẽ giúp loại bỏ các thư viện, tools không cần thiết ở final images.
+
+			2. Tăng tốc độ build
+
+				- Ta có thể chuẩn bị base image chứa các công cụ, dependencies trước khi thực hiện build để tái sử dụng.
+
+	- Docker Compose:
+		- Docker Compose cho phép làm việc với môi trường multi containers, giảm sự phức tạp.
+		- Quản lý: Containers, networks, volumes, services
+		- Thường được sử dụng để chạy thử ở local. Với cloud thì không sử dụng docker compose.
+
+	- Docker Compose file:
+
+		- "service": Đơn vị quản lý của docker compose
+		- "build": Sử dụng Docker file nào để build ra Docker image
+		- "ports": Mapping hostPort:containerPort
+		- "volume": Mapping volume hostVolume:containerVolume
+		- "environment": Khai báo overwrite variable
+		- "volumes": Định nghĩa các persistent volume cho service
+
+	- Docker Networking:
+		- Container không sử dụng network chung với internet của host.
+		- Network có thể dùng để kết nối containers với nhau, kết nối với host, kết nối ra internet
+
+		- Các loại networks:
+			- Bridge network
+				- Driver: bridge
+				- Đặc điểm:
+					- Có khả năng cung cấp kết nối các containers chạy trên cùng một host
+					- KHÔNG có khả năng kết nối các containers mà chạy trên nhiều hosts
+
+					- Tạo ra một private network
+					- Kết nối bên trong private network sử dụng private IP của mỗi container. Container port sẽ được sử dụng.
+					- Kết nối với bên ngoài private network sử dụng PortMapping giữa container và host.
+
+			- Host network
+				- Driver: host
+				- Đặc điểm:
+					- Không cần sử dụng port mapping, sử dụng trực tiếp port của host
+					- Sử dụng network stack của host
+
+			- None network
+				- Driver: null
+				- Không có kết nối mạng
+
+			- Overlay network
+				- Driver: overlay
+				- Mạng overlay cho phép connect docker deamon ở nhiều hosts với nhau từ đó kết nối các containers với nhau.
+
+			- Macvlan network
+				- Driver: macvlan
+				- Đặc điểm:
+					- macvlan cũng cho phép kết nối docker deamon ở nhiều hosts với nhau
+					- Mạng macvlan cho phép gán địa chỉ MAC address cho mỗi containers
+
+Labs
+
+	- Images:
+
+		docker pull <image_name>:<tag>
+		docker images
+		docker rmi <image>:<tag>
+		docker inspect <image>:<tag>
+
+	- Container:
+
+		docker ps
+		docker ps -a
+
+		# Run một container cung cấp param
+		docker run ubuntu -alh
+		docker run ubuntu -p --full-time
+		
+		# Run một container mà có default foreground process
+		docker run -d -p <host_port>:<container_port> --name <container_name> <image>:<tag>
+			- "-d": Detach
+			- "-p": Port
+
+		# Run một container, attach terminal hiện tại với terminal của container
+		docker run -it <image>:<tag>
+
+		# Run một container mà không có default foreground process, ta mở một terminal ở container để làm foreground process
+		docker run -dit <image>:<tag>
+
+		docker start/stop/restart <container_id>
+		docker rm <container_id>
+
+		#SSH login vào một container
+		docker exec -it <container_id> /bin/bash
+
+	- Docker file:
+
+		docker build -t <image_name>:<tag> .
+
+	- Docker compose:
+
+		- Mapping volume:
+
+			volumes:
+				- ./app:/var/www/html
+			
+		- Declare persistent volumes:
+
+			volumes:
+				db_data:
+
+		- Mapping persistent volumes:
+
+				db:
+					volumes:
+						- db_data:/var/lib/mysql
+			
+			volumes:
+				db_data:
+
+
+	- Run a container on ECS:
+
+		1. Push image lên ECR
+		2. Tạo task definition
+		3. Tạo ECS cluster, ECS service, ECS tasks
