@@ -12,7 +12,6 @@ Notes
 				- Core của OS
 				- Cho phép kết nối phần mềm với phần cứng
 
-
 			Một số mô hình kiến trúc máy tính
 
 				Hardware appliance: Thiết bị phần cứng
@@ -40,7 +39,7 @@ Notes
 						- Ubuntu OS thông thường được cài trên một Bare Metal device hoặc Virtualization Machine sẽ có kernel và các hardware driver để giao tiếp với phần cứng.
 						- Ubuntu Image thì chỉ có essential libraries and tools of Ubuntu. Không có kernel, không có các hardware driver vì nó không cần tương tác trực tiếp với hardwares. Việc giao tiếp với hardwares vẫn thông qua host OS.
 
-					- Containers cho phép isolate môi trường của các Containers, khiến các applications chạy bên trong containers cảm thấy như nó đang chạy trên một máy tính độc lập.
+					- Containers cho phép isolate môi trường, khiến các applications chạy bên trong containers cảm thấy như nó đang chạy trên một máy tính độc lập.
 
 				=> Containerized phù hợp để chạy nhiều applications cần isolate với nhau nhưng vẫn sử dụng chung một hệ điều hành.
 				=> Virtualized thì phù hợp để chạy nhiều applications cần isolate với nhau nhưng tương thích với hệ điều hành khách nhau.
@@ -89,7 +88,6 @@ Notes
 		- COPY / ADD:
 
 			- Copy folder từ host vào container
-
 
 			- ADD: Hỗ trợ giải nén, copy từ URL trên internet
 			- COPY: Không hỗ trợ giải nén, copy từ internet 

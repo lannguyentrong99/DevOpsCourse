@@ -1,0 +1,107 @@
+1. Tạo VPC, subnet
+
+    - Tạo VPC, subnet, route tables, default route, route_table_assignment
+    - Tạo security group:
+        - ALB_SecurityGroup
+        - FEBE_SecurityGroup
+        - Database_SecurityGroup
+    
+    - Tạo ECR repositories
+        - fa_front_end
+            - URI: 556705842113.dkr.ecr.us-west-2.amazonaws.com/fa_front_end
+        - fa_back_end
+            - URI: 556705842113.dkr.ecr.us-west-2.amazonaws.com/fa_back_end
+
+    - Tạo ECS Cluster
+
+    - Build Image:
+    
+    - Launch ECS Services:
+
+        - Error: Fargate requires task definition to have execution role ARN to support ECR images. 
+
+            - Thêm attribute "execution_role_arn" cho task definition
+            - Task execution role: Role dành cho task
+            - Instance role: Role của instance được register vào cluster
+
+        - Khi launch với type là Fargate:
+            - Network mode của task definition phải là
+                network_mode             = "awsvpc"
+            - CPU, RAM definition cần phải cung cấp ở task definition level
+        
+        - TargetGroup cần có type là IP
+        - Listener của ALB cần phải có rules trỏ tới ALB, nếu không khi tạo TargetGroup sẽ bị lỗi target group này chưa được assign ALB. Và dẫn đến hệ lụy là Service của ECS không thể launch thành công.
+
+    - Xử lý lỗi tasks BE, FE liên tục bị deregistered rồi lại được registered
+
+
+
+    - Notes:
+        - TargetGroup type - TaskDefinition
+            - TargetGroup type "instance" if:
+                1. TaskDefinition use launch type EC2 instance
+                    - Because tasks share the instance ENI (elastic network interface)
+            - TargetGroup type IP mode:
+                1. TaskDefinition use launch type Fargate
+                    - Because each task have it own ENI
+                2. TaskDefinition have "awsvpc" network mode
+
+
+2. Tạo MongoDB cluster
+    
+    - Tạo Mongo DB cluster:
+
+        1. Tạo Security group
+
+            - Database_SecurityGroup
+            - port 27017
+
+        2. Tạo Parameter group
+
+            - Disable SSL
+
+        3. Tạo DocumentDB cluster
+
+
+            - Number of instance: 1
+
+
+    - Chuẩn bị một EC2 instance, cài đặt mongosh:
+
+        - Link cài Mongosh: https://www.mongodb.com/docs/mongodb-shell/install/
+
+        - EC2 instace specification:
+            - Ubuntu 20.04+ (x64 and ARM64)
+
+        - Steps:
+            1. Import the public key used by the package management system.
+
+                sudo apt-get install gnupg
+                
+                wget -qO- https://www.mongodb.org/static/pgp/server-8.0.asc | sudo tee /etc/apt/trusted.gpg.d/server-8.0.asc
+
+            2. Create a list file for MongoDB
+
+                echo "deb [ arch=amd64,arm64 ] https://repo.mongodb.org/apt/ubuntu noble/mongodb-org/8.0 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-8.0.list
+
+            3. Reload local package database.
+
+                sudo apt-get update
+
+            4. Install the mongosh package.
+
+                sudo apt-get install -y mongodb-mongosh
+
+                sudo apt-get install -y mongodb-mongosh-shared-openssl11
+
+                sudo apt-get install -y mongodb-mongosh-shared-openssl3
+
+            5. Confirm that mongosh installed successfully.
+
+                mongosh --version
+
+        - Thử kết nối:
+
+        mongosh --host docdb-2025-02-01-14-21-40.cn480yyasbhb.us-west-2.docdb.amazonaws.com:27017 --username lanadmin --password Lanadmin_1
+
+        mongo --host docdb-2025-02-01-14-21-40.cn480yyasbhb.us-west-2.docdb.amazonaws.com:27017 --username lanadmin --password Lanadmin_1

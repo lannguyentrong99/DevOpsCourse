@@ -1,0 +1,33 @@
+docker-compose.yaml
+    BackEnd
+        - Build context: spring-boot-student-app-api
+        - Port: 8080:8080
+        - URL: http://localhost:8080
+        - Build steps: 
+            Stage 1: buildstep
+                - Base image: maven:3.8.3-openjdk-1
+                - Run: mvn clean install
+
+            Stage 2:
+                - Copy file ".jar" as artifact
+                - Run with command:
+                    /usr/bin/java -jar /usr/share/myservice/student-app-api-0.0.1-SNAPSHOT.jar
+
+    FrontEnd
+        - Build context: react-student-management
+        - Port: 3000:3000
+        - URL: http://localhost:3000
+        - Build steps:
+            - Base image: node:20
+            - Add node_modules folder to PATH
+            - Copy source code
+            - Remove redundant files/folders
+            - Run build: npm intall
+            - Start app: npm run start
+                - "start" command is defined in file "package.json"
+
+    Database
+        - Image: mongo:5.0
+        - Port: 27017:27017
+        - URL: mongodb://database:27017/dev
+            - When MongoDB is accessed, database "dev" will be automatically created

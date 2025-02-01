@@ -2,14 +2,29 @@
 
     - Backend:
         - Java:
-            - "SPRING_PROFILES_ACTIVE" của service "api" là gì ?
+            - "SPRING_PROFILES_ACTIVE" của service "api" là gì ?'
+
+                - Có vẻ đây là một EnvironmentVariable có tác dụng chạy Java
+
             - Đọc về cách thức build Java, Maven là gì ? Cách build Java với Maven
-                - Tác dụng của các files "mvnw", "mvnw.cmd", "pom.xml"
+
+                mvn clean install
+
         - Docker:
             - Tìm hiểu về "networks" trong Docker.
+
+                Done
+
             - Đọc lại về multi-stages Docker build
+
+                Done
+
             - Đọc lại về ENTRYPOINT
+
+                Done
 
     - FrontEnd:
         - Docker:
             - Đọc hiểu từng bước trong file Dockerfile của FrontEnd
+
+                Done
