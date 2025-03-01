@@ -1,0 +1,9 @@
+- Jenkins khi cài đặt trên EC2 instance không có Elastic IP thì mỗi lần IP thay đổi, khi truy cập Jenkins sẽ thấy FrontEnd load rất lâu.
+
+- Cách fix:
+
+    - Vào menu "Manage Jenkins"
+    - Vào menu "System"
+    - Cập nhật lại field "Jenkins URL"
+
+        http://ec2-instance-ip:8080

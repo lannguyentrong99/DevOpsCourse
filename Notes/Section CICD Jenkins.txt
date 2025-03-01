@@ -1,0 +1,37 @@
+- Key words:
+
+    - Build-in environment variable
+    - Credential
+    - 
+
+- Prepare environment to build Java project
+    - https://fpt-software.udemy.com/course/devops-on-aws-for-beginner-vietnamese/learn/lecture/42362570#overview
+
+- Prepare environemnt to build NodeJS project
+    - https://www.stewright.me/2023/04/install-nodejs-18-on-ubuntu-22-04/
+
+- Publish artifacts lên S3:
+    1. Chuẩn bị S3 bucket
+    2. Tạo IAM role cho Jenkins instance
+    3. Cài AWS-CLI-v2
+
+        aws s3 cp "${WORKSPACE}/target/my-app-1.0-SNAPSHOT.jar" "s3://udemy-lan-demo-1/jenkins/${BUILD_ID}/"
+
+- Build sử dụng Declarative Pipeline:
+    1. Chọn build item type là Pipeline
+    2. Code ra file ".groovy"
+
+- Host static website với S3:
+    - Hướng dẫn: https://fpt-software.udemy.com/course/devops-on-aws-for-beginner-vietnamese/learn/lecture/42362666#overview
+    1. Build NodeJS project
+    2. Publish artifacts lên S3
+    3. Bật mode hosting static website
+    4. Update bucket policy
+    5. Truy cập thử.
+
+- Build Docker image với Jenkins:
+    - Hướng dẫn: https://fpt-software.udemy.com/course/devops-on-aws-for-beginner-vietnamese/learn/lecture/42362682#overview
+    1. Cài đặt Docker, Docker-compose cho ubuntu
+    2. Build, launch thử docker image ở local
+    3. Build artifacts với Jenkins
+    4. Publish image lên ECR

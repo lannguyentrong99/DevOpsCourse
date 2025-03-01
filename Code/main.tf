@@ -29,14 +29,4 @@ module "load_balancing" {
 module "compute" {
   source = "./modules/compute"
   region = var.region
-  subnet_ids = module.networking.public_subnet_ids
-  frontend_security_group_id = module.security.FrontEnd_SecurityGroupID
-  backend_security_group_id = module.security.BackEnd_SecurityGroupID
-  FrontEnd_TargetGroup_ARN = module.load_balancing.FrontEnd_TargetGroup_ARN
-  BackEnd_TargetGroup_ARN = module.load_balancing.BackEnd_TargetGroup_ARN
-}
-
-resource "aws_key_pair" "FA_KeyPair" {
-  key_name   = "FA-KeyPair"
-  public_key = file(var.keypair_path)
 }

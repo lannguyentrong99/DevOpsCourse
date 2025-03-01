@@ -1,0 +1,15 @@
+1. Tạo EC2 instance
+
+    - Ubuntu 22.04, free tier eligible
+    - t2.micro
+    - 20Gb hard drive
+
+2. Cài đặt Jenkins
+
+    - Search "install jenkins ubuntu"
+    - https://www.jenkins.io/doc/book/installing/linux/
+
+    - Steps: 
+        1. Install Java
+        2. Install Jenkins
+        

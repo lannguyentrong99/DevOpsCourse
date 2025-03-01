@@ -33,6 +33,8 @@
         - Listener của ALB cần phải có rules trỏ tới ALB, nếu không khi tạo TargetGroup sẽ bị lỗi target group này chưa được assign ALB. Và dẫn đến hệ lụy là Service của ECS không thể launch thành công.
 
     - Xử lý lỗi tasks BE, FE liên tục bị deregistered rồi lại được registered
+        - Liên quan tới health check hay không ?
+        - Cách loại bỏ quá trình connection draining khi register/deregister task vào service. 
 
 
 
@@ -49,59 +51,61 @@
 
 2. Tạo MongoDB cluster
     
-    - Tạo Mongo DB cluster:
+    - Các bước thực hiện tạo thử cluster:
 
-        1. Tạo Security group
+        - Tạo Mongo DB cluster:
 
-            - Database_SecurityGroup
-            - port 27017
+            1. Tạo Security group
 
-        2. Tạo Parameter group
+                - Database_SecurityGroup
+                - port 27017
 
-            - Disable SSL
+            2. Tạo Parameter group
 
-        3. Tạo DocumentDB cluster
+                - Disable SSL
+
+            3. Tạo DocumentDB cluster
 
 
-            - Number of instance: 1
+                - Number of instance: 1
 
 
-    - Chuẩn bị một EC2 instance, cài đặt mongosh:
+        - Chuẩn bị một EC2 instance, cài đặt mongosh:
 
-        - Link cài Mongosh: https://www.mongodb.com/docs/mongodb-shell/install/
+            - Link cài Mongosh: https://www.mongodb.com/docs/mongodb-shell/install/
 
-        - EC2 instace specification:
-            - Ubuntu 20.04+ (x64 and ARM64)
+            - EC2 instace specification:
+                - Ubuntu 20.04+ (x64 and ARM64)
 
-        - Steps:
-            1. Import the public key used by the package management system.
+            - Steps:
+                1. Import the public key used by the package management system.
 
-                sudo apt-get install gnupg
-                
-                wget -qO- https://www.mongodb.org/static/pgp/server-8.0.asc | sudo tee /etc/apt/trusted.gpg.d/server-8.0.asc
+                    sudo apt-get install gnupg
+                    
+                    wget -qO- https://www.mongodb.org/static/pgp/server-8.0.asc | sudo tee /etc/apt/trusted.gpg.d/server-8.0.asc
 
-            2. Create a list file for MongoDB
+                2. Create a list file for MongoDB
 
-                echo "deb [ arch=amd64,arm64 ] https://repo.mongodb.org/apt/ubuntu noble/mongodb-org/8.0 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-8.0.list
+                    echo "deb [ arch=amd64,arm64 ] https://repo.mongodb.org/apt/ubuntu noble/mongodb-org/8.0 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-8.0.list
 
-            3. Reload local package database.
+                3. Reload local package database.
 
-                sudo apt-get update
+                    sudo apt-get update
 
-            4. Install the mongosh package.
+                4. Install the mongosh package.
 
-                sudo apt-get install -y mongodb-mongosh
+                    sudo apt-get install -y mongodb-mongosh
 
-                sudo apt-get install -y mongodb-mongosh-shared-openssl11
+                    sudo apt-get install -y mongodb-mongosh-shared-openssl11
 
-                sudo apt-get install -y mongodb-mongosh-shared-openssl3
+                    sudo apt-get install -y mongodb-mongosh-shared-openssl3
 
-            5. Confirm that mongosh installed successfully.
+                5. Confirm that mongosh installed successfully.
 
-                mongosh --version
+                    mongosh --version
 
-        - Thử kết nối:
+            - Thử kết nối:
 
-        mongosh --host docdb-2025-02-01-14-21-40.cn480yyasbhb.us-west-2.docdb.amazonaws.com:27017 --username lanadmin --password Lanadmin_1
+            mongosh --host test-cluster.cluster-cn480yyasbhb.us-west-2.docdb.amazonaws.com:27017 --username myUsername --password myPassword
 
-        mongo --host docdb-2025-02-01-14-21-40.cn480yyasbhb.us-west-2.docdb.amazonaws.com:27017 --username lanadmin --password Lanadmin_1
+    - Bước tiếp theo: Tạo documentDB cluster thông qua terraform

@@ -23,7 +23,7 @@ resource "aws_lb_target_group" "FA_FrontEnd_TargetGroup" {
   health_check {
     path                = "/"
     interval            = 30
-    timeout             = 5
+    timeout             = 15
     healthy_threshold   = 2
     unhealthy_threshold = 2
     matcher             = "200-299"
@@ -40,7 +40,7 @@ resource "aws_lb_target_group" "FA_BackEnd_TargetGroup" {
   health_check {
     path                = "/api/students"
     interval            = 30
-    timeout             = 5
+    timeout             = 15
     healthy_threshold   = 2
     unhealthy_threshold = 2
     matcher             = "200-299"
@@ -60,7 +60,7 @@ resource "aws_lb_listener" "FA_ALB_Listener" {
 
 resource "aws_lb_listener_rule" "FA_BackEnd_Rule" {
   listener_arn = aws_lb_listener.FA_ALB_Listener.arn
-  priority     = 2
+  priority     = 1
 
   action {
     type             = "forward"
