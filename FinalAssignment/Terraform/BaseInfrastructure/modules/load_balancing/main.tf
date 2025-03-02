@@ -22,8 +22,8 @@ resource "aws_lb_target_group" "FA_FrontEnd_TargetGroup" {
 
   health_check {
     path                = "/"
-    interval            = 30
-    timeout             = 15
+    interval            = 60
+    timeout             = 30
     healthy_threshold   = 2
     unhealthy_threshold = 2
     matcher             = "200-299"

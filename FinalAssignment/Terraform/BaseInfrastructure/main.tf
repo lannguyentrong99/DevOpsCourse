@@ -30,3 +30,10 @@ module "compute" {
   source = "./modules/compute"
   region = var.region
 }
+
+module "database" {
+  source = "./modules/database"
+  region = var.region
+  subnet_ids = module.networking.public_subnet_ids
+  vpc_security_group_ids = [module.security.Database_SecurityGroupID]
+}
