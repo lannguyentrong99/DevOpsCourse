@@ -1,0 +1,17 @@
+pipeline {
+    agent any
+    stages {
+        stage('Build') {
+            steps {
+                sh 'docker build -t fa_front_end:latest ./react-student-management/'
+            }
+        }
+        stage('Upload image to ECR') {
+            steps {
+                sh 'aws ecr get-login-password --region us-west-2 | docker login --username AWS --password-stdin 556705842113.dkr.ecr.us-west-2.amazonaws.com'
+                sh 'docker tag fa_front_end:latest 556705842113.dkr.ecr.us-west-2.amazonaws.com/fa_front_end:latest'
+                sh 'docker push 556705842113.dkr.ecr.us-west-2.amazonaws.com/fa_front_end:latest'
+            }
+        }
+    }
+}

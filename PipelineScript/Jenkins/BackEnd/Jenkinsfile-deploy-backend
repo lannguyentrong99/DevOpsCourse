@@ -1,0 +1,28 @@
+pipeline {
+    agent any
+    environment{
+        FULL_IMAGE = "556705842113.dkr.ecr.us-west-2.amazonaws.com/fa_back_end:${version}"
+        TASK_DEFINITION =""
+        NEW_TASK_DEFINITION=""
+        NEW_TASK_INFO=""
+        NEW_REVISION=""
+        TASK_FAMILY="FA_BackEnd_TaskDefinition"
+        REGION="us-west-2"
+        CLUSTER_NAME="FA-ECS-Cluster"
+        SERVICE_NAME="FA_BackEnd_ECS_Service"
+    }
+    stages {
+        stage('Update task definition and force deploy ecs service') {
+            steps {
+                sh '''
+                    TASK_DEFINITION=$(aws ecs describe-task-definition --task-definition ${TASK_FAMILY} --region "${REGION}")
+                    NEW_TASK_DEFINITION=$(echo $TASK_DEFINITION | jq --arg IMAGE "${FULL_IMAGE}" '.taskDefinition | .containerDefinitions[0].image = $IMAGE | del(.taskDefinitionArn) | del(.revision) | del(.status) | del(.requiresAttributes) | del(.compatibilities) |  del(.registeredAt)  | del(.registeredBy)')
+                    NEW_TASK_INFO=$(aws ecs register-task-definition --region "${REGION}" --cli-input-json "$NEW_TASK_DEFINITION")
+                    NEW_REVISION=$(echo $NEW_TASK_INFO | jq '.taskDefinition.revision')
+                    aws ecs update-service --cluster ${CLUSTER_NAME} --service ${SERVICE_NAME} --task-definition ${TASK_FAMILY}:${NEW_REVISION} --force-new-deployment
+                '''
+ 
+            }
+        }
+    }
+}
