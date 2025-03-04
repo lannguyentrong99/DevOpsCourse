@@ -25,7 +25,7 @@ resource "aws_docdb_subnet_group" "test_subnet_group" {
 resource "aws_docdb_cluster" "test_cluster" {
   cluster_identifier      = "test-cluster"
   engine                  = "docdb"
-  engine_version          = "5.0"
+  engine_version          = "5.0.0"
   master_username         = "myUsername"
   master_password         = "myPassword"
   db_subnet_group_name    = aws_docdb_subnet_group.test_subnet_group.name

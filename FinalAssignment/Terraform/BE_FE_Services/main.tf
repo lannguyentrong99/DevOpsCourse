@@ -43,6 +43,9 @@ resource "aws_ecs_service" "FA_BackEnd_ECS_Service" {
     container_name   = "BackEndContainer"
     container_port   = 8080
   }
+  deployment_controller {
+    type = "CODE_DEPLOY"
+  }
 }
 
 
@@ -86,5 +89,9 @@ resource "aws_ecs_service" "FA_FrontEnd_ECS_Service" {
     target_group_arn = var.FrontEnd_TargetGroup_ARN
     container_name   = "FrontEndContainer"
     container_port   = 3000
+  }
+  
+  deployment_controller {
+    type = "CODE_DEPLOY"
   }
 }

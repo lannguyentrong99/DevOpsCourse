@@ -1,0 +1,129 @@
+Other Resources
+
+    ECR
+        - BE: 556705842113.dkr.ecr.us-west-2.amazonaws.com/fa_back_end
+        - FE: 556705842113.dkr.ecr.us-west-2.amazonaws.com/fa_front_end
+
+    Parameter Group
+
+        - FA_Backend_build_version : latest
+        - FA_Frontend_build_version : latest
+        - FA_Backend_deploy_version : latest
+        - FA_Frontend_deploy_version : latest
+
+BEBuild OK
+
+    - Name: FA_Backend_build
+    - Required steps:
+        - SourceBranch: backend_config
+        - Use webhook
+        - Filter group: PUSH, backend_config
+    - Role: arn:aws:iam::556705842113:role/service-role/FA_CodeBuild_ServiceRole
+
+FEBuild OK
+
+    - Name: FA_Frontend_build
+    - Required steps:
+        - SourceBranch: frontend_config
+        - Use webhook
+        - Filter group: PUSH, frontend_config
+    - Role: arn:aws:iam::556705842113:role/service-role/FA_CodeBuild_ServiceRole
+
+BEDeploy
+
+    - CodeBuild
+        - Name: FA_Backend_Deployment_BuildStep
+        - Required Steps:
+            - Disable Github Webhook
+        - Role: arn:aws:iam::556705842113:role/service-role/FA_CodeBuild_ServiceRole
+        - Artifact:
+            1. imageDetail.json (build)
+            2. appspec.yaml (static)
+            3. taskdef.json (static)
+
+    - CodeDeploy
+        - App: FA_Backend_deploy
+        - Deployment Group: FA_Backend_deployment_group
+            - Strategy: AllInOne
+            - Required Steps:
+                - BlueGreen, all in once
+        - Role: arn:aws:iam::556705842113:role/FA_CodeDeploy_ServiceRole
+
+    - CodePipeline
+        - Name: FA_BackEnd_deploy_pipeline
+        - Role: arn:aws:iam::556705842113:role/service-role/AWSCodePipelineServiceRole-us-west-2-FA_BackEnd_deploy_pipeline
+
+
+FEDeploy
+
+    - CodeBuild
+        - Name: FA_Frontend_Deployment_BuildStep
+        - Required Steps:
+            - Disable Github Webhook
+        - Role: arn:aws:iam::556705842113:role/service-role/FA_CodeBuild_ServiceRole
+        - Artifact:
+            1. imageDetail.json (build)
+            2. appspec.yaml (static)
+            3. taskdef.json (static)
+
+    - CodeDeploy
+        - App: FA_Backend_deploy
+        - Deployment Group: FA_Frontend_deployment_group
+            - Strategy: AllInOne
+            - Required Steps:
+                - BlueGreen, all in once
+        - Role: arn:aws:iam::556705842113:role/FA_CodeDeploy_ServiceRole
+
+    - CodePipeline
+        - Name: FA_FrontEnd_deploy_pipeline
+        - Role: arn:aws:iam::556705842113:role/service-role/AWSCodePipelineServiceRole-us-west-2-FA_BackEnd_deploy_pipeline
+
+BEBuildAndDeployAutoSCM
+
+    - CodeBuild
+        - Name: FA_Backend_BuildAndDeployAutoSCM
+        - Required Steps:
+            - Enable Github Webhook
+        - Role: arn:aws:iam::556705842113:role/service-role/FA_CodeBuild_ServiceRole
+        - Artifact:
+            1. imageDetail.json (build)
+            2. appspec.yaml (static)
+            3. taskdef.json (static)
+            4. Image (push to ECR)
+
+    - CodeDeploy
+        - App: FA_Backend_deploy
+        - Deployment Group: FA_Frontend_deployment_group
+            - Strategy: AllInOne
+            - Required Steps:
+                - BlueGreen, all in once
+        - Role: arn:aws:iam::556705842113:role/FA_CodeDeploy_ServiceRole
+
+    - CodePipeline
+        - Name: FA_BackEnd_BuildAndDeployAutoSCM_pipeline
+        - Role: arn:aws:iam::556705842113:role/service-role/AWSCodePipelineServiceRole-us-west-2-FA_BackEnd_deploy_pipeline
+
+FEBuildAndDeployAutoSCM
+
+    - CodeBuild
+        - Name: FA_Frontend_BuildAndDeployAutoSCM
+        - Required Steps:
+            - Enable Github Webhook
+        - Role: arn:aws:iam::556705842113:role/service-role/FA_CodeBuild_ServiceRole
+        - Artifact:
+            1. imageDetail.json (build)
+            2. appspec.yaml (static)
+            3. taskdef.json (static)
+            4. Image (push to ECR)
+
+    - CodeDeploy
+        - App: FA_Backend_deploy
+        - Deployment Group: FA_Frontend_deployment_group
+            - Strategy: AllInOne
+            - Required Steps:
+                - BlueGreen, all in once
+        - Role: arn:aws:iam::556705842113:role/FA_CodeDeploy_ServiceRole
+
+    - CodePipeline
+        - Name: FA_BackEnd_BuildAndDeployAutoSCM_pipeline
+        - Role: arn:aws:iam::556705842113:role/service-role/AWSCodePipelineServiceRole-us-west-2-FA_BackEnd_deploy_pipeline
