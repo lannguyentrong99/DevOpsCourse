@@ -1,11 +1,9 @@
-1. Network, Security, LoadBalacing
+1. Lauch BaseInfrastructure
 
-2. Fill variables to launch database
+2. Update param MONGO_URL cho BEService, build code
 
-3. Launch database
+3. Launch BEService
 
-4. Copy database endpoint then build BE Image
+4. Update param REACT_APP_API_URL cho FEService, build code
 
-5. Copy ALB dns_name then build FE Image
-
-6. Launch BE, FE
+5. Launch FEService
