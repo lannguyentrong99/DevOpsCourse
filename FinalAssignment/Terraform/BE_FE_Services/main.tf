@@ -2,6 +2,16 @@ provider "aws" {
   region = var.region
 }
 
+resource "aws_cloudwatch_log_group" "FA_FrontEnd_log_group" {
+  name = "ecs/FA_FrontEnd_log_group"
+  retention_in_days = 1
+}
+
+resource "aws_cloudwatch_log_group" "FA_BackEnd_log_group" {
+  name = "ecs/FA_BackEnd_log_group"
+  retention_in_days = 1
+}
+
 resource "aws_ecs_task_definition" "FA_BackEnd_TaskDefinition" {
   family                   = "FA_BackEnd_TaskDefinition"
   requires_compatibilities = ["FARGATE"]
@@ -20,7 +30,15 @@ resource "aws_ecs_task_definition" "FA_BackEnd_TaskDefinition" {
           containerPort = 8080
           hostPort      = 8080
         }
-      ]
+      ],
+      logConfiguration: {
+        logDriver: "awslogs",
+        options: {
+          awslogs-group         = aws_cloudwatch_log_group.FA_BackEnd_log_group.name,
+          awslogs-region        = var.region,
+          awslogs-stream-prefix = "backend-container"
+        }
+      }
     }
   ])
 }
@@ -67,7 +85,15 @@ resource "aws_ecs_task_definition" "FA_FrontEnd_TaskDefinition" {
           containerPort = 3000
           hostPort      = 3000
         }
-      ]
+      ],
+      logConfiguration: {
+        logDriver: "awslogs",
+        options: {
+          awslogs-group         = aws_cloudwatch_log_group.FA_FrontEnd_log_group.name,
+          awslogs-region        = var.region,
+          awslogs-stream-prefix = "frontend-container"
+        }
+      }
     }
   ])
 }
