@@ -8,7 +8,7 @@ resource "aws_ecs_task_definition" "FA_BackEnd_TaskDefinition" {
   network_mode             = "awsvpc"
   cpu        = 256
   memory     = 512
-  execution_role_arn = "arn:aws:iam::556705842113:role/ecsTaskExecutionRole"
+  execution_role_arn = var.ECS_TaskExecutionRole_ARN
 
   container_definitions   = jsonencode([
     {
@@ -55,7 +55,7 @@ resource "aws_ecs_task_definition" "FA_FrontEnd_TaskDefinition" {
   network_mode             = "awsvpc"
   cpu        = 256
   memory     = 512
-  execution_role_arn = "arn:aws:iam::556705842113:role/ecsTaskExecutionRole"
+  execution_role_arn = var.ECS_TaskExecutionRole_ARN
 
   container_definitions   = jsonencode([
     {

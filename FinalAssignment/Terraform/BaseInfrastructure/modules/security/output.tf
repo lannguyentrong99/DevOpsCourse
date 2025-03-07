@@ -10,3 +10,6 @@ output "BackEnd_SecurityGroupID" {
 output "Database_SecurityGroupID" {
   value = aws_security_group.Database_SecurityGroup.id
 }
+output "ECS_TaskExecutionRole_ARN" {
+  value = aws_iam_role.FA_ECSTaskExecutionRole.arn
+}

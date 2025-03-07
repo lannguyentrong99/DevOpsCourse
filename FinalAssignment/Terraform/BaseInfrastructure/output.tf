@@ -22,3 +22,6 @@ output "alb_dns_name" {
 output "cluster_endpoint" {
   value = module.database.cluster_endpoint
 }
+output "ECS_TaskExecutionRole_ARN" {
+  value = module.security.ECS_TaskExecutionRole_ARN
+}

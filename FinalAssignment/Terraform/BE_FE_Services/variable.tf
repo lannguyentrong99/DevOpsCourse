@@ -50,3 +50,9 @@ variable "frontend_image_uri" {
   description = "Image URI"
   nullable = false
 }
+
+variable "ECS_TaskExecutionRole_ARN" {
+  type = string
+  description = "ECS_TaskExecutionRole_ARN"
+  nullable = false
+}

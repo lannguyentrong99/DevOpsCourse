@@ -16,6 +16,7 @@ phases:
       - aws ecr get-login-password --region us-west-2 | docker login --username AWS --password-stdin 556705842113.dkr.ecr.us-west-2.amazonaws.com
       - REPOSITORY_URI=556705842113.dkr.ecr.us-west-2.amazonaws.com/fa_back_end
       - COMMIT_HASH=$(echo $CODEBUILD_RESOLVED_SOURCE_VERSION | cut -c 1-7)
+      - EXECUTION_ROLE_ARN=$(aws iam get-role --role-name FA_ECSTaskExecutionRole --query 'Role.Arn' --output text)
 
   build:
     commands:
@@ -33,7 +34,32 @@ phases:
       - echo Build completed on `date`
       - echo Writing imageDetail.json file...
       - printf '{"ImageURI":"%s"}' $REPOSITORY_URI:$DEPLOY_VERSION > imageDetail.json
-      - cat imageDetail.json
+      - echo Writing taskdef.json file...
+      - printf '{
+          "executionRoleArn": "%s",
+          "containerDefinitions": [
+              {
+                  "name": "FrontEndContainer",
+                  "image": "<IMAGE_NAME>",
+                  "essential": true,
+                  "portMappings": [
+                      {
+                          "hostPort": 3000,
+                          "protocol": "tcp",
+                          "containerPort": 3000
+                      }
+                  ]
+              }
+          ],
+          "requiresCompatibilities": [
+              "FARGATE"
+          ],
+          "networkMode": "awsvpc",
+          "cpu": "256",
+          "memory": "512",
+          "family": "FA_FrontEnd_TaskDefinition"
+      }' $EXECUTION_ROLE_ARN > taskdef.json
+      - cat taskdef.json
 artifacts:
   files: 
     - imageDetail.json
