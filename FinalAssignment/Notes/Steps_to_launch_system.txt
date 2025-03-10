@@ -1,9 +1,6 @@
 1. Lauch BaseInfrastructure
-
-2. Update param MONGO_URL cho BEService, build code
-
-3. Launch BEService
-
-4. Update param REACT_APP_API_URL cho FEService, build code
-
-5. Launch FEService
+2. Copy output từ terraform của BaseInfrastructure
+3. Cung cấp các parameters cho BE_FE_Services terraform
+4. Cung cấp MONGO_URL, REACT_APP_API_URL cho BackEnd, FrontEnd code.
+5. Build lại images Backend, FrontEnd.
+6. Launch BE_FE_Service terraform.

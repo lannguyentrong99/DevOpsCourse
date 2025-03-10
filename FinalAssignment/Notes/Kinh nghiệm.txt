@@ -1,0 +1,14 @@
+- Logging ECS:
+    - Chú ý khi sử dụng CodeBuild để build ra file "taskdef.json" cần có phần cấu hình logConfiguration.
+    - Logging của một ECS container chỉ bắt đầu sau khi Container Image đã được build xong, và start. Còn nếu trong file Dockerfile, ta in ra một message nào đó với command "RUN echo "some message"" thì message này chỉ xuất hiện trong quá trình build.
+
+- CodeDeploy:
+    - Để có thể sử dụng CodeDeploy để deploy với BlueGreen strategy thì ECSService phải được cấu hình DeployController là CODE_DEPLOY. Khi này ta không thể update service này một cách thủ công. Việc update service hoàn toàn chỉ có thể can thiệp thông qua CodeDeploy.
+
+
+- Subnet:
+    - Một Subnet được coi là public subnet nếu như nó được associate với một route table mà có "route" tới internet gateway.
+    - Một Subnet được coi là private subnet nếu như nó không có routetable route tới internet gateway. Hoặc chỉ có route tới NAT Gateway.
+
+- IAM Role:
+    - Khi tạo một IAM Role thông qua terraform, ta có thể thấy có một required attribute là "assume_role_policy", attribute này xác định xem service nào sẽ sử dụng role này. VD: EC2, ECS task, EKS task, lambda functions,... Nó tương đương với màn hình chọn service sẽ sử dụng role khi ta tạo một role thông qua Management Console. 

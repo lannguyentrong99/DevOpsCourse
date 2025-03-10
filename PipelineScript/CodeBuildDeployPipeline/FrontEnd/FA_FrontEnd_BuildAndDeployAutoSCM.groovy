@@ -4,8 +4,8 @@ env:
     DOCKERHUB_USERNAME: dockerhub-username-secret_v2
     DOCKERHUB_PASSWORD: dockerhub-password-secret-v2
   parameter-store:
-    BUILD_VERSION: FA_Backend_build_version
-    DEPLOY_VERSION: FA_Backend_deploy_version
+    BUILD_VERSION: FA_Frontend_build_version
+    DEPLOY_VERSION: FA_Frontend_deploy_version
 phases:
   pre_build:
     commands:
@@ -14,19 +14,19 @@ phases:
       - echo Logging in to Amazon ECR...
       - aws --version
       - aws ecr get-login-password --region us-west-2 | docker login --username AWS --password-stdin 556705842113.dkr.ecr.us-west-2.amazonaws.com
-      - REPOSITORY_URI=556705842113.dkr.ecr.us-west-2.amazonaws.com/fa_back_end
+      - REPOSITORY_URI=556705842113.dkr.ecr.us-west-2.amazonaws.com/fa_front_end
       - COMMIT_HASH=$(echo $CODEBUILD_RESOLVED_SOURCE_VERSION | cut -c 1-7)
       - EXECUTION_ROLE_ARN=$(aws iam get-role --role-name FA_ECSTaskExecutionRole --query 'Role.Arn' --output text)
       - REGION="us-west-2"
-      - LOG_GROUP="ecs/FA_BackEnd_log_group"
-      - LOG_STREAM_PREFIX="backend-container"
+      - LOG_GROUP="ecs/FA_FrontEnd_log_group"
+      - LOG_STREAM_PREFIX="frontend-container"
   build:
     commands:
       - echo Build started on `date`
       - echo Building the Docker image...
-      - docker build -t fa_back_end:$BUILD_VERSION ./spring-boot-student-app-api/
-      - docker tag fa_back_end:$BUILD_VERSION $REPOSITORY_URI:$BUILD_VERSION
-      - docker tag fa_back_end:$BUILD_VERSION $REPOSITORY_URI:$COMMIT_HASH
+      - docker build -t fa_front_end:$BUILD_VERSION ./react-student-management/
+      - docker tag fa_front_end:$BUILD_VERSION $REPOSITORY_URI:$BUILD_VERSION
+      - docker tag fa_front_end:$BUILD_VERSION $REPOSITORY_URI:$COMMIT_HASH
 
   post_build:
     commands:
@@ -45,14 +45,14 @@ phases:
           "executionRoleArn": "$EXECUTION_ROLE_ARN",
           "containerDefinitions": [
             {
-              "name": "BackEndContainer",
+              "name": "FrontEndContainer",
               "image": "<IMAGE_NAME>",
               "essential": true,
               "portMappings": [
                 {
-                  "hostPort": 8080,
+                  "hostPort": 3000,
                   "protocol": "tcp",
-                  "containerPort": 8080
+                  "containerPort": 3000
                 }
               ],
               "logConfiguration": {
@@ -71,7 +71,7 @@ phases:
           "networkMode": "awsvpc",
           "cpu": "256",
           "memory": "512",
-          "family": "FA_BackEnd_TaskDefinition"
+          "family": "FA_FrontEnd_TaskDefinition"
         }
         EOF
       - cat taskdef.json
