@@ -1,0 +1,5 @@
+- Kiểm tra lại terraform template
+  - Tạo role bằng terraform
+  - Cấu hình log
+
+- Kiểm tra lại các notes
