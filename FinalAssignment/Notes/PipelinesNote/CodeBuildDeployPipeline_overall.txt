@@ -39,7 +39,7 @@ BEDeploy
         - Artifact:
             1. imageDetail.json (build)
             2. appspec.yaml (static)
-            3. taskdef.json (static)
+            3. taskdef.json (build)
 
     - CodeDeploy
         - App: FA_Backend_deploy
@@ -64,7 +64,7 @@ FEDeploy
         - Artifact:
             1. imageDetail.json (build)
             2. appspec.yaml (static)
-            3. taskdef.json (static)
+            3. taskdef.json (build)
 
     - CodeDeploy
         - App: FA_Backend_deploy
@@ -88,7 +88,7 @@ BEBuildAndDeployAutoSCM
         - Artifact:
             1. imageDetail.json (build)
             2. appspec.yaml (static)
-            3. taskdef.json (static)
+            3. taskdef.json (build)
             4. Image (push to ECR)
 
     - CodeDeploy
@@ -113,7 +113,7 @@ FEBuildAndDeployAutoSCM
         - Artifact:
             1. imageDetail.json (build)
             2. appspec.yaml (static)
-            3. taskdef.json (static)
+            3. taskdef.json (build)
             4. Image (push to ECR)
 
     - CodeDeploy

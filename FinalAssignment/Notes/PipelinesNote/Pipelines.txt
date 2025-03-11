@@ -1,0 +1,33 @@
+Pipelines
+
+
+    Jenkins
+
+        - Purposes:
+            1. build
+            2. deploy
+            3. AutoBuildAndDeploy
+            4. ManualBuildAndDeploy
+
+        - Script:
+            - Script provided from SCM
+            - Script directly provided on pipeline
+
+        - Đặc điểm:
+            - Highly customizable: Tính custom, linh động rất cao do tự mình kiểm soát Jenkins instance và các plugins
+            - Dynamically parameterized: Ta có thể cung cấp dynamic parameters mỗi lần chạy pipeline
+
+    CodeBuild_CodePipeline_CodeDeploy
+
+        - Purposes:
+            1. Build
+            2. AutoBuildAndDeploy
+            3. ManualBuildAndDeploy
+
+        - Script:
+            - Script provided from SCM
+            - Script directly provided on pipeline
+
+        - Đặc điểm:
+            - Fixed parameters: Không thể cung cấp params một cách dynamically. Params được cung cấp thông qua SecretManagers, ParameterStores
+            
