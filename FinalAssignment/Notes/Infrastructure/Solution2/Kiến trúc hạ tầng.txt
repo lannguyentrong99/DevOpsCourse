@@ -1,0 +1,103 @@
+Kiến trúc hạ tầng
+
+    BaseInfrastructure Modules
+
+        Networking
+
+            - PulicSubnets
+                - InternetGateway
+                - RouteTable
+
+        Security
+
+            - SecurityGroup:
+                - BackEnd Service SecurityGroup
+                    - Allow port 8080.
+                    - SpringBoot application sẽ listen port 8080
+
+                - ALB Service SecurityGroup
+                    - Allow ports 80, 81
+                    - 2 ports trên là dành cho 2 listeners dùng trong BlueGreen deployment strategy
+                
+                - Database SecurityGroup
+                    - Allow port 27017
+                    - MongoDB chạy trên DocumentDB cluster sẽ listen trên port 27017
+
+                - Quan hệ các Security Groups:
+
+                    ALB Security Group => FrontEnd Security Group
+                    ALB Security Group => BackEnd Security Group
+                    Backend Security Group => Database Security Group
+
+            - Role:
+                
+                - ECS Task Execution Role:
+                    - Permissions:
+                        - CloudWatch
+                        - ECR
+
+        Database
+
+            - DocumentDB cluster:
+                - Engine: MongoDB
+                - MongoDB chỉ cần có một Cluster. Còn việc tạo database hay schema được tạo tự động tương ứng với connectionString. VD: mongodb://username:password@mongodb_url:27017/dev. Khi kết nối với MongoDB cluster thông qua URL trên thì sẽ có một database "dev" được tạo mới.
+
+                - Lưu ý: MongoDB hiện tại chỉ có thể kết nối thông qua các instances thuộc cùng một VPC, không thể kết nối từ local hay từ một instance thuộc VPC khác. Có thể test kết nối với một instance có cài đặt "mongosh".
+
+        Compute
+
+            - ECS Cluster
+
+        LoadBalancing
+
+            - ALB
+
+            - Listeners:
+
+                - 2 listeners tương ứng 2 ports 80, 81
+                    - Ta cần có 2 listeners để có thể deploy với BlueGreen strategy
+
+                        VD: 
+                            Trước khi deploy
+
+                                L1 => TG1 (PROD)
+
+                                L2 => N/A (STG)
+
+                            Khởi tạo deployment
+
+                                L1 => TG1 (PROD)
+
+                                L2 => TG2 (STG)
+
+                            Switching traffic
+
+                                L1 => TG2 (PROD)
+
+                                L2 => TG2 (STG)
+
+                                N/A => TG1
+
+                            Release old version cluster
+
+                                L1 => TG2 (PROD)
+
+                                L2 => TG2 (STG)
+
+                - Rules:
+                    - Nếu kết nối tới path có pattern "/api/*" thì foward về BE
+                    - Nếu kết nối với path có pattern "/" thì forward default về FE
+
+
+            - Target Groups:
+                
+                - 2 targets group cho BE.
+
+        
+    BackEnd_Service
+
+        LogGroup
+
+        TaskDefinition
+
+        ECS Service

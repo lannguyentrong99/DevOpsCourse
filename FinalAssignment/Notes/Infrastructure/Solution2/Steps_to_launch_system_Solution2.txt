@@ -1,0 +1,13 @@
+1. Lauch BaseInfrastructure
+2. Copy output từ terraform của BaseInfrastructure
+3. Cung cấp các parameters cho BE_Service terraform
+4. Cung cấp MONGO_URL cho BackEnd code.
+5. Build lại images Backend.
+6. Launch BE_Service terraform.
+7. Launch FE_Service terraform.
+8. Cung cấp REACT_APP_API_URL cho front end code.
+9. Build FrontEnd
+    - npm install
+    - npm run Build
+10. Upload build output lên S3 bucket được tạo bởi FE_Service terraform
+11. Test thử hệ thống.
